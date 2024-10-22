@@ -12,7 +12,7 @@ def validate_token(token):
     headers = {'Authorization': f'Bearer {token}'}
     response = requests.get(LOGIN_SERVICE_URL, headers = headers)
     if response.status_code != 200 :
-        raise Exception("Validacion de toke fallida ")
+        raise Exception("Validacion de token fallida ")
     return response.json()
 
 @routes.route('/notify', methods=['POST'])
@@ -31,7 +31,7 @@ def notify():
     db.session.add(notification)
     db.session.commit()
 
-    return jsonify({"msg": "Notification sent"}), 200
+    return jsonify({"msg": "Notificacion enviada "}), 200
 
 @routes.route('/notifications', methods=['GET'])
 def get_notifications():
