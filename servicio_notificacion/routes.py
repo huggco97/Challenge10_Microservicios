@@ -5,7 +5,7 @@ from circuitbreaker import circuit
 
 routes = Blueprint('routes', __name__)
 
-LOGIN_SERVICE_URL = "http://login_service:5000/profile"
+LOGIN_SERVICE_URL = "http://localhost:5000/profile"
 
 @circuit(failure_threshold = 3, recovery_timeout = 30)
 def validate_token(token):
@@ -17,7 +17,7 @@ def validate_token(token):
 
 @routes.route('/notify', methods=['POST'])
 def notify():
-    token = request.headers.get('Authorization').split()[1]
+    token = request.headers.get('Authorization')
 
     try:
         user_info = validate_token(token)

@@ -7,15 +7,14 @@ routes = Blueprint('routes', __name__)
 @routes.route('/register', methods = ['POST'])
 def register():
     data = request.get_json()
-    user = data.get('user_')
+    username = data.get('username')
     email = data.get('email')
     password = data.get('password')
-
-    if User.query.filter_by(email=email).first() or User.query.filter_by(user=user).first()  :
+   
+    if User.query.filter_by(email=email).first() or User.query.filter_by(username=username).first()  :
         return jsonify({"msg": "Este usuario ya existe "}), 409
     
-    user = User(user = user)
-    user = User(email = email)
+    user = User(username = username, email = email)      
     user.set_password(password)
     db.session.add(user)
     db.session.commit()
@@ -25,22 +24,25 @@ def register():
 @routes.route('/login', methods = ['POST'])
 def login():
     data = request.get_json()
-    user = data.get('user')
+    username = data.get('username')
     email = data.get('email')
     password = data.get('password')
 
-    user = User.query.filter_by(email=email).first() or User.query.filter_by(user=user).first()
 
-    if not user or not user.check_password(password):
+    username = User.query.filter_by(email=email).first() or User.query.filter_by(username=username).first()
+
+    if not username or not username.check_password(password):
         return jsonify({'msg':'credenciales invalidos '}), 401
     
     access_token = create_access_token(identity = {'email': email})
-    return jsonify(access_token = access_token), 200
+    return jsonify(access_token = access_token ), 200
+
+    
 
 @routes.route('/profile', methods = ['GET'])
 @jwt_required()
 def profile():
     current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    return jsonify(logged_in_as = current_user), 200
 
 
