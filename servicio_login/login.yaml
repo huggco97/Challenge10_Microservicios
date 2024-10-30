@@ -1,0 +1,110 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Login Microservice API",
+    "version": "1.0.0",
+    "description": "API para el microservicio de autenticación y manejo de sesiones de usuario con JWT"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Registro de usuario",
+        "description": "Crea un nuevo usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["id", "username", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuario registrado exitosamente" },
+          "400": { "description": "Parámetros faltantes o inválidos" },
+          "409": { "description": "Usuario ya existente" }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Inicio de sesión",
+        "description": "Autentica al usuario y devuelve un token JWT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "password": { "type": "string" }
+                },
+                "required": ["username", "email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Autenticación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Credenciales incorrectas" },
+          "400": { "description": "Parámetros faltantes o inválidos" }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "summary": "Perfil de usuario",
+        "description": "Obtiene el perfil del usuario autenticado",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Perfil del usuario",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token JWT inválido o ausente" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
