@@ -1,6 +1,6 @@
 .entorno/
 .env
-/home/hugo/CodePro/challenge10_Microservicios/servicio_login/instance
-/home/hugo/CodePro/challenge10_Microservicios/servicio_login/__pycache__
-/home/hugo/CodePro/challenge10_Microservicios/servicio_notificacion/__pycache__
-/home/hugo/CodePro/challenge10_Microservicios/servicio_notificacion/instance
+servicio_login/instance
+servicio_login/__pycache__/
+servicio_notificacion/__pycache__/
+servicio_notificacion/instance/
