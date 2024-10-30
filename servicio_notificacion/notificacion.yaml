@@ -1,0 +1,76 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Notifications Microservice API",
+    "version": "1.0.0",
+    "description": "API para el microservicio de notificaciones de usuarios autenticados"
+  },
+  "paths": {
+    "/notifications/send": {
+      "post": {
+        "summary": "Enviar notificación",
+        "description": "Envía una notificación al usuario autenticado",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": { "type": "string" }
+                },
+                "required": ["message"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Notificación enviada exitosamente" },
+          "400": { "description": "Parámetros faltantes o inválidos" },
+          "401": { "description": "Token JWT inválido o ausente" }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "summary": "Obtener notificaciones",
+        "description": "Recupera notificaciones del usuario autenticado",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaciones",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "message": { "type": "string" },
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token JWT inválido o ausente" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -37,3 +37,4 @@ def notify():
 def get_notifications():
     notifications = Notification.query.all()
     return jsonify([{"message": n.message, "user_email": n.user_email} for n in notifications]), 200
+
