@@ -3,3 +3,7 @@ Flask-JWT-Extended
 Flask-SQLAlchemy
 psycopg2
 python-dotenv
+pika
+os
+threading
+datetime
